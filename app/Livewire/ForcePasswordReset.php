@@ -27,6 +27,10 @@ class ForcePasswordReset extends Component
 
     public function mount()
     {
+        if (auth()->user()->usesOauthOnlyAuthentication()) {
+            return redirect()->route('dashboard');
+        }
+
         if (auth()->user()->force_password_reset === false) {
             return redirect()->route('dashboard');
         }
@@ -40,6 +44,10 @@ class ForcePasswordReset extends Component
 
     public function submit()
     {
+        if (auth()->user()->usesOauthOnlyAuthentication()) {
+            return redirect()->route('dashboard');
+        }
+
         if (auth()->user()->force_password_reset === false) {
             return redirect()->route('dashboard');
         }

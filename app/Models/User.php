@@ -53,9 +53,17 @@ class User extends Authenticatable implements SendsEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
         'force_password_reset' => 'boolean',
+        'is_oauth_user' => 'boolean',
         'show_boarding' => 'boolean',
         'email_change_code_expires_at' => 'datetime',
     ];
+
+    public function usesOauthOnlyAuthentication(): bool
+    {
+        $settings = instanceSettings();
+
+        return $this->is_oauth_user && $settings->is_oauth_password_login_disabled;
+    }
 
     /**
      * Set the email attribute to lowercase.
